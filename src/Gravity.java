@@ -45,10 +45,27 @@ public class Gravity {
       };
       cn.getTextWindow().addKeyListener(klis);
       // ----------------------------------------------------
-      
 
       int px=5,py=5;
       cn.getTextWindow().output(px,py,'P');
+
+      char[][] map = new char[25][55];
+      for (int i = 0; i < 25; i++) {
+         for (int j = 0; j < 55; j++) {
+            if (i == 0 || i == 24 || j == 0 || j == 54) {
+               map[i][j] = '#';
+            }
+            else if (i == 8 && j < 50) {
+               map[i][j] = '#';
+            }
+            else if (i == 16 && j > 4) {
+               map[i][j] = '#';
+            } else {
+               map[i][j] = ' ';
+            }
+            cn.getTextWindow().output(j,i,map[i][j]);
+         }
+      }
 
 
 
@@ -61,10 +78,18 @@ public class Gravity {
             mousepr=0;     // last action  
          }
          if(keypr==1) {    // if keyboard button pressed
-            if(rkey==KeyEvent.VK_LEFT) px--;   
-            if(rkey==KeyEvent.VK_RIGHT) px++;
-            if(rkey==KeyEvent.VK_UP) py--;
-            if(rkey==KeyEvent.VK_DOWN) py++;
+            if(rkey==KeyEvent.VK_LEFT && map[py][px-1] != '#') {
+               cn.getTextWindow().output(px, py, ' ');
+               px--; }
+            if(rkey==KeyEvent.VK_RIGHT && map[py][px+1] != '#'){
+               cn.getTextWindow().output(px, py, ' ');
+               px++;}
+            if(rkey==KeyEvent.VK_UP && map[py-1][px] != '#'){
+               cn.getTextWindow().output(px, py, ' ');
+               py--;}
+            if(rkey==KeyEvent.VK_DOWN&& map[py+1][px] != '#'){
+               cn.getTextWindow().output(px, py, ' ');
+               py++;}
             
             char rckey=(char)rkey;
             //        left          right          up            down
