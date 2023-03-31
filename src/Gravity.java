@@ -113,11 +113,11 @@ public class Gravity {
         }
 
 
-        while (!isAlreadyChosen(map,px,py)) {
-            px = random.nextInt(25);
-            py = random.nextInt(55);
+        while (!isAlreadyChosen(map,py,px)) {
+            py = random.nextInt(25);
+            px = random.nextInt(55);
         }
-        map[px][py] = 'P';
+        map[py][px] = 'P';
         cn.getTextWindow().output(px, py, 'P');
 
         // print map
