@@ -112,12 +112,12 @@ public class Gravity {
             }
         }
 
-        // player position
+
         while (!isAlreadyChosen(map,px,py)) {
-            px = random.nextInt(55);
-            py = random.nextInt(25);
+            px = random.nextInt(25);
+            py = random.nextInt(55);
         }
-        map[py][px] = 'P';
+        map[px][py] = 'P';
         cn.getTextWindow().output(px, py, 'P');
 
         // print map
