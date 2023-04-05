@@ -19,7 +19,12 @@ public class Gravity {
     // ----------------------------------------------------
 
 
+    Stack displayStack = new Stack(8);
+    Player player;
+
+
     Gravity() throws Exception {
+
         // --- Contructor
         // ------ Standard code for mouse and keyboard ------ Do not change
         tmlis = new TextMouseListener() {
@@ -37,6 +42,7 @@ public class Gravity {
             public void mouseReleased(TextMouseEvent arg0) {
             }
         };
+
         cn.getTextWindow().addTextMouseListener(tmlis);
 
         klis = new KeyListener() {
@@ -55,8 +61,7 @@ public class Gravity {
         };
         cn.getTextWindow().addKeyListener(klis);
         // ----------------------------------------------------
-
-        Player player = new Player();
+        player = new Player(0,0);
         Random random = new Random();
         Queue inputQueue = new Queue(1000);
         char[][] map = new char[25][55];
@@ -125,8 +130,19 @@ public class Gravity {
         // print map
         printMap(map);
         int time = 0;
-        player.teleportRight = 0;
-        player.score = 0;
+
+        for(int i = 0;i < 18;i++) {
+            if(i <9) {cn.getTextWindow().output(64,8+i,'|');}
+            else {cn.getTextWindow().output(68,i-1,'|');}
+        }
+        for(int i = 0;i < 5;i++) {
+            if(i == 0 || i == 4) {
+                cn.getTextWindow().output(64+i,17,'+');}
+            else {
+                cn.getTextWindow().output(64+i,17,'-');}
+        }
+
+
         while (true) {
 
 
@@ -171,18 +187,47 @@ public class Gravity {
                 keypr = 0;    // last action
             }
 
+
+            if(map[player.y][player.x] == '1' || map[player.y][player.x] == '2' || map[player.y][player.x] == '3') {
+                if(map[player.y][player.x] == '1') {player.addNewItem("1");}
+                else if(map[player.y][player.x] == '2') {player.addNewItem("2");}
+                else if (map[player.y][player.x] == '3') {player.addNewItem("3");}
+
+                displayBackpack();
+
+
+            }
+            map[player.y][player.x] = 'P';
+            cn.getTextWindow().output(player.x, player.y, 'P');
+
+            char rckey = (char) rkey;
+            //        left          right          up            down
+            if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
+                cn.getTextWindow().output(player.x, player.y, 'P'); // VK kullanmadan test teknigi
+            else cn.getTextWindow().output(rckey);
+
+            if (rkey == KeyEvent.VK_SPACE) {
+                String str;
+                str = cn.readLine();     // keyboardlistener running and readline input by using enter
+                cn.getTextWindow().setCursorPosition(5, 20);
+                cn.getTextWindow().output(str);
+            }
+
             if (time % 80 == 0) {
                 randomQueueAdd(inputQueue, map);
                 printQueue(inputQueue);
             }
 
+            cn.getTextWindow().setCursorPosition(60, 19);
+            cn.getTextWindow().output("Teleport : " + player.getTpRights());
 
-            cn.getTextWindow().setCursorPosition(60, 16);
-            cn.getTextWindow().output("Teleport : " + player.teleportRight);
-            cn.getTextWindow().setCursorPosition(60, 18);
-            cn.getTextWindow().output("Score    : " + player.score);
-            cn.getTextWindow().setCursorPosition(60, 20);
-            cn.getTextWindow().output("Time     : " + time / 40);
+
+            cn.getTextWindow().setCursorPosition(60, 21);
+            cn.getTextWindow().output("Score    : " + player.getScore());
+
+            cn.getTextWindow().setCursorPosition(60, 23);
+            cn.getTextWindow().output("Time     : " + time/40);//getTime()
+
 
             time++;
 
@@ -329,6 +374,17 @@ public class Gravity {
             cn.getTextWindow().output(column, row, ' ');
         }
 
+    }
+
+    void displayBackpack() {
+        while(!player.getBackpack().isEmpty()) {displayStack.push(player.getBackpack().pop());}
+        int a = 0;
+        while(!displayStack.isEmpty()) {
+            char c = ((String) displayStack.peek()).charAt(0);
+            player.getBackpack().push(displayStack.pop());
+            cn.getTextWindow().output(66,16-a,c);
+            a++;
+        }
     }
 
 
