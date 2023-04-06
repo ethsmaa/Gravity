@@ -441,7 +441,4 @@ public class Gravity {
             a++;
         }
     }
-    void xMovements(int x , int y){
-
-    }
 }
