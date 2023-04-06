@@ -246,7 +246,6 @@ public class Gravity {
         return map[row][column] == ' ';
     }
 
-
     boolean isEarthSquare(char[][] map, int row, int column) { // ora henüz bir şeye dönüşmediyse
         return map[row][column] == ':';
     }
@@ -254,7 +253,6 @@ public class Gravity {
     boolean isBoundSquare(char[][] map, int row, int column) {
         return map[row][column] == 'O';
     }
-
 
     void printMap(char[][] map) {
         for (int i = 0; i < 25; i++) {
@@ -319,7 +317,7 @@ public class Gravity {
         char element = (char) queue.dequeue();
         if (element == '1' || element == '2' || element == '3' || element == 'X') {
 
-            // select random row and column, if not empty or ground then select random again
+            // select random row and column, if not empty or earth then select random again
             int row = rnd.nextInt(25);
             int column = rnd.nextInt(55);
             while (!emptyOrEarth(map, row, column)) {
@@ -330,7 +328,7 @@ public class Gravity {
             cn.getTextWindow().output(column, row, element);
         }
         else if (element == 'O') {
-            // select random row and column, if not empty or ground then select random again
+            // select random row and column, if not empty or earth then select random again
             int row = rnd.nextInt(25);
             int column = rnd.nextInt(55);
             while (!emptyOrEarth(map, row, column)) {
