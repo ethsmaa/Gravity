@@ -67,8 +67,7 @@ public class Gravity {
         char[][] map = new char[25][55];
 
 
-        player.x = 0;
-        player.y = 0;
+
 
 
         for (int i = 0; i < 25; i++) {
@@ -194,8 +193,6 @@ public class Gravity {
                 else if (map[player.y][player.x] == '3') {player.addNewItem("3");}
 
                 displayBackpack();
-
-
             }
             map[player.y][player.x] = 'P';
             cn.getTextWindow().output(player.x, player.y, 'P');
