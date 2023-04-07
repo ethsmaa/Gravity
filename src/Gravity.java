@@ -5,8 +5,27 @@ import enigma.event.TextMouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.awt.Color;
+import enigma.console.TextAttributes;
+
+
+
 
 public class Gravity {
+    public static TextAttributes cyan = new TextAttributes(Color.cyan);
+    public static TextAttributes black = new TextAttributes(Color.BLACK);
+    public static TextAttributes white = new TextAttributes(Color.white);
+    public static TextAttributes blue = new TextAttributes(Color.BLUE);
+    public static TextAttributes gray = new TextAttributes(Color.GRAY);
+    public static TextAttributes green = new TextAttributes(Color.GREEN);
+    public static TextAttributes magenta = new TextAttributes(Color.MAGENTA);
+    public static TextAttributes orange = new TextAttributes(Color.orange);
+    public static TextAttributes red = new TextAttributes(Color.red);
+    public static TextAttributes yellow = new TextAttributes(Color.yellow);
+    public static TextAttributes pink = new TextAttributes(Color.PINK);
+
+
+
     public enigma.console.Console cn = Enigma.getConsole("Gravity", 100, 26, 22, 0);
     public TextMouseListener tmlis;
     public KeyListener klis;
@@ -21,7 +40,8 @@ public class Gravity {
 
     Stack displayStack = new Stack(8);
     Player player;
-
+    int [][] enemies = new int[100][2];
+    int enemiesCount = 0;
 
     Gravity() throws Exception {
 
@@ -72,7 +92,7 @@ public class Gravity {
 
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 55; j++) {
-                if (i == 0 || i == 24 || j == 0 || j == 54) {
+                if ((i == 0 || i == 24) || (j == 0 || j == 54)) {
                     map[i][j] = '#';
                 } else if (i == 8 && j < 50) {
                     map[i][j] = '#';
@@ -98,9 +118,9 @@ public class Gravity {
         // random 30 earthsquare  ->  1-2-3 (equal probability)
         int treasureCount = 0;
         while (treasureCount < 30) {
-            int row = random.nextInt(25);
-            int column = random.nextInt(55);
-            int treasure = random.nextInt(3) + 1; // (1 - 3)
+            int row = random.nextInt(1,25);
+            int column = random.nextInt(1,55);
+            int treasure = random.nextInt(1,4);
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = Integer.toString(treasure).charAt(0);
                 treasureCount++;
@@ -110,8 +130,8 @@ public class Gravity {
         int emtySquare = 0;
 
         while (emtySquare < 200) {
-            int row = random.nextInt(25);
-            int column = random.nextInt(55);
+            int row = random.nextInt(1,25);
+            int column = random.nextInt(1,55);
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = ' ';
                 emtySquare++;
@@ -120,8 +140,8 @@ public class Gravity {
 
 
         while (!isEarthSquare(map, player.y, player.x)) {
-            player.y = random.nextInt(25);
-            player.x = random.nextInt(55);
+            player.y = random.nextInt(1,25);
+            player.x = random.nextInt(1,55);
         }
         map[player.y][player.x] = 'P';
         cn.getTextWindow().output(player.x, player.y, 'P');
@@ -144,14 +164,6 @@ public class Gravity {
 
         while (true) {
 
-
-            if (mousepr == 1) {  // if mouse button pressed
-                cn.getTextWindow().output(mousex, mousey, '#');  // write a char to x,y position without changing cursor position
-                player.x = mousex;
-                player.y = mousey;
-
-                mousepr = 0;     // last action
-            }
             if (keypr == 1) {    // if keyboard button pressed
                 if (rkey == KeyEvent.VK_LEFT && map[player.y][player.x - 1] != '#') {
                     cn.getTextWindow().output(player.x, player.y, ' ');
@@ -173,7 +185,7 @@ public class Gravity {
                 char rckey = (char) rkey;
                 //        left          right          up            down
                 if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
-                    cn.getTextWindow().output(player.x, player.y, 'P'); // VK kullanmadan test teknigi
+                    cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
                 else cn.getTextWindow().output(rckey);
 
                 if (rkey == KeyEvent.VK_SPACE) {
@@ -195,12 +207,12 @@ public class Gravity {
                 displayBackpack();
             }
             map[player.y][player.x] = 'P';
-            cn.getTextWindow().output(player.x, player.y, 'P');
+            cn.getTextWindow().output(player.x, player.y, 'P',green);
 
             char rckey = (char) rkey;
             //        left          right          up            down
             if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
-                cn.getTextWindow().output(player.x, player.y, 'P'); // VK kullanmadan test teknigi
+                cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
             else cn.getTextWindow().output(rckey);
 
             if (rkey == KeyEvent.VK_SPACE) {
@@ -209,22 +221,62 @@ public class Gravity {
                 cn.getTextWindow().setCursorPosition(5, 20);
                 cn.getTextWindow().output(str);
             }
+            for (int i = 0; i < enemiesCount; i++){
+                    int randomDirection = random.nextInt(4);
+                    if (randomDirection == 0 && enemies[i][0] - 1 != 'O' && enemies[i][0] - 1 != '#') {
 
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] - 1);
+                        cn.getTextWindow().output('X' , blue);
+                        enemies[i][0] --;
+                    }
+                    else if (randomDirection == 1 && enemies[i][0] + 1 != 'O' && enemies[i][0] + 1 != '#') {
+
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] + 1);
+                        cn.getTextWindow().output('X' , blue);
+                        enemies[i][0] ++;
+                    }
+                    else if (randomDirection == 2 && enemies[i][1] - 1 != 'O' && enemies[i][1] - 1 != '#') {
+
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
+                        cn.getTextWindow().output('X' , blue);
+                        enemies[i][1] --;
+                    }
+                    else if (randomDirection == 3 && enemies[i][1] + 1 != 'O' && enemies[i][1] + 1 != '#') {
+
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] + 1 , enemies[i][0]);
+                        cn.getTextWindow().output('X' , blue);
+                        enemies[i][1] ++;
+                    }
+            }
             if (time % 80 == 0) {
                 randomQueueAdd(inputQueue, map);
                 printQueue(inputQueue);
             }
 
             cn.getTextWindow().setCursorPosition(60, 19);
-            cn.getTextWindow().output("Teleport : " + player.getTpRights());
+            cn.getTextWindow().output("Teleport : " , magenta);
+            cn.getTextWindow().setCursorPosition(70, 19);
+            cn.getTextWindow().output("  " +player.getTpRights());
 
 
             cn.getTextWindow().setCursorPosition(60, 21);
-            cn.getTextWindow().output("Score    : " + player.getScore());
+            cn.getTextWindow().output("Score    : " ,pink);
+            cn.getTextWindow().setCursorPosition(70, 21);
+            cn.getTextWindow().output("  " +player.getScore());
+
 
             cn.getTextWindow().setCursorPosition(60, 23);
-            cn.getTextWindow().output("Time     : " + time/40);//getTime()
-
+            cn.getTextWindow().output("Time     : " , cyan);//getTime()
+            cn.getTextWindow().setCursorPosition(70, 23);
+            cn.getTextWindow().output("  " +time / 40);
 
             time++;
 
@@ -240,7 +292,7 @@ public class Gravity {
     }
 
     boolean isEmptySquare(char[][] map, int row, int column) {
-        return map[row][column] == ' ';
+            return map[row][column] == ' ';
     }
 
     boolean isEarthSquare(char[][] map, int row, int column) { // ora henüz bir şeye dönüşmediyse
@@ -262,7 +314,7 @@ public class Gravity {
     void randomQueueAdd(Queue queue, char[][] map) {
         Random rnd = new Random();
         while (queue.size()<13) {
-            int randomIndex = rnd.nextInt(40);
+            int randomIndex = rnd.nextInt(  40);
             if (randomIndex < 6) { // 6/40 probability
                 queue.enqueue('1');
                 // 6 / 40 probability
@@ -302,11 +354,11 @@ public class Gravity {
             queue.enqueue(tempQueue.dequeue());
         }
         cn.getTextWindow().setCursorPosition(60, 3);
-        cn.getTextWindow().output("<<<<<<<<<<<<");
+        cn.getTextWindow().output("<<<<<<<<<<<<" ,red);
         cn.getTextWindow().setCursorPosition(60, 4);
         cn.getTextWindow().output(str);
         cn.getTextWindow().setCursorPosition(60, 5);
-        cn.getTextWindow().output("<<<<<<<<<<<<");
+        cn.getTextWindow().output("<<<<<<<<<<<<" ,red);
     }
 
     void queueToMap(Queue queue, char[][] map) {
@@ -315,30 +367,35 @@ public class Gravity {
         if (element == '1' || element == '2' || element == '3' || element == 'X') {
 
             // select random row and column, if not empty or earth then select random again
-            int row = rnd.nextInt(25);
-            int column = rnd.nextInt(55);
+            int row = rnd.nextInt(1,25);
+            int column = rnd.nextInt(1,55);
             while (!emptyOrEarth(map, row, column)) {
-                row = rnd.nextInt(25);
-                column = rnd.nextInt(55);
+                row = rnd.nextInt(1,25);
+                column = rnd.nextInt(1,55);
+            }
+            if (element == 'X'){
+                enemies[enemiesCount][0] = row;
+                enemies[enemiesCount][1] = column;
+                enemiesCount++;
             }
             map[row][column] = element;
             cn.getTextWindow().output(column, row, element);
         }
         else if (element == 'O') {
             // select random row and column, if not empty or earth then select random again
-            int row = rnd.nextInt(25);
-            int column = rnd.nextInt(55);
+            int row = rnd.nextInt(1,25);
+            int column = rnd.nextInt(1,55);
             while (!emptyOrEarth(map, row, column)) {
-                row = rnd.nextInt(25);
-                column = rnd.nextInt(55);
+                row = rnd.nextInt(1,25);
+                column = rnd.nextInt(1,55);
             }
 
             // random bound coordinates
-            int row2 = rnd.nextInt(25);
-            int column2 = rnd.nextInt(55);
+            int row2 = rnd.nextInt(1,25);
+            int column2 = rnd.nextInt(1,55);
             while (!isBoundSquare(map, row2, column2)) {
-                row2 = rnd.nextInt(25);
-                column2 = rnd.nextInt(55);
+                row2 = rnd.nextInt(1,25);
+                column2 = rnd.nextInt(1,55);
             }
 
             map[row][column] = element;
@@ -348,22 +405,22 @@ public class Gravity {
         }
         else if (element == ':') {
             // select random row and column, if not empty square then select random again
-            int row = rnd.nextInt(25);
-            int column = rnd.nextInt(55);
+            int row = rnd.nextInt(1,25);
+            int column = rnd.nextInt(1,55);
             while (!isEmptySquare(map, row, column)) {
-                row = rnd.nextInt(25);
-                column = rnd.nextInt(55);
+                row = rnd.nextInt(1,25);
+                column = rnd.nextInt(1,55);
             }
             map[row][column] = element;
             cn.getTextWindow().output(column, row, element);
         }
         else if (element == 'e') {
             // select random row and column, if not earth square then select random again
-            int row = rnd.nextInt(25);
-            int column = rnd.nextInt(55);
+            int row = rnd.nextInt(1,25);
+            int column = rnd.nextInt(1,55);
             while (!isEarthSquare(map, row, column)) {
-                row = rnd.nextInt(25);
-                column = rnd.nextInt(55);
+                row = rnd.nextInt(1,25);
+                column = rnd.nextInt(1,55);
             }
             map[row][column] = element;
             cn.getTextWindow().output(column, row, ' ');
@@ -381,9 +438,4 @@ public class Gravity {
             a++;
         }
     }
-
-
 }
-
-
-
