@@ -118,9 +118,10 @@ public class Gravity {
         // random 30 earthsquare  ->  1-2-3 (equal probability)
         int treasureCount = 0;
         while (treasureCount < 30) {
-            int row = random.nextInt(1,25);
-            int column = random.nextInt(1,55);
-            int treasure = random.nextInt(1,4);
+            int row = random.nextInt(24) + 1;
+            int column = random.nextInt(54) + 1;
+            //random treasure 1 to 3
+            int treasure = random.nextInt(3) + 1;
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = Integer.toString(treasure).charAt(0);
                 treasureCount++;
@@ -130,8 +131,8 @@ public class Gravity {
         int emtySquare = 0;
 
         while (emtySquare < 200) {
-            int row = random.nextInt(1,25);
-            int column = random.nextInt(1,55);
+            int row = random.nextInt(24) + 1;
+            int column = random.nextInt(54) + 1;
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = ' ';
                 emtySquare++;
@@ -140,8 +141,8 @@ public class Gravity {
 
 
         while (!isEarthSquare(map, player.y, player.x)) {
-            player.y = random.nextInt(1,25);
-            player.x = random.nextInt(1,55);
+            player.y = random.nextInt(24) + 1;
+            player.x = random.nextInt(54) + 1;
         }
         map[player.y][player.x] = 'P';
         cn.getTextWindow().output(player.x, player.y, 'P');
@@ -367,11 +368,11 @@ public class Gravity {
         if (element == '1' || element == '2' || element == '3' || element == 'X') {
 
             // select random row and column, if not empty or earth then select random again
-            int row = rnd.nextInt(1,25);
-            int column = rnd.nextInt(1,55);
+            int row = rnd.nextInt(24) + 1;
+            int column = rnd.nextInt(54) + 1;
             while (!emptyOrEarth(map, row, column)) {
-                row = rnd.nextInt(1,25);
-                column = rnd.nextInt(1,55);
+                row = rnd.nextInt(24) + 1;
+                column = rnd.nextInt(54) + 1;
             }
             if (element == 'X'){
                 enemies[enemiesCount][0] = row;
@@ -383,19 +384,19 @@ public class Gravity {
         }
         else if (element == 'O') {
             // select random row and column, if not empty or earth then select random again
-            int row = rnd.nextInt(1,25);
-            int column = rnd.nextInt(1,55);
+            int row = rnd.nextInt(24) + 1;
+            int column = rnd.nextInt(54) + 1;
             while (!emptyOrEarth(map, row, column)) {
-                row = rnd.nextInt(1,25);
-                column = rnd.nextInt(1,55);
+                row = rnd.nextInt(24) + 1;
+                column = rnd.nextInt(54) + 1;
             }
 
             // random bound coordinates
-            int row2 = rnd.nextInt(1,25);
-            int column2 = rnd.nextInt(1,55);
+            int row2 = rnd.nextInt(24) + 1;
+            int column2 = rnd.nextInt(54) + 1;
             while (!isBoundSquare(map, row2, column2)) {
-                row2 = rnd.nextInt(1,25);
-                column2 = rnd.nextInt(1,55);
+                row2 = rnd.nextInt(24) + 1;
+                column2 = rnd.nextInt(54) + 1;
             }
 
             map[row][column] = element;
@@ -405,22 +406,22 @@ public class Gravity {
         }
         else if (element == ':') {
             // select random row and column, if not empty square then select random again
-            int row = rnd.nextInt(1,25);
-            int column = rnd.nextInt(1,55);
+            int row = rnd.nextInt(24) + 1;
+            int column = rnd.nextInt(54) + 1;
             while (!isEmptySquare(map, row, column)) {
-                row = rnd.nextInt(1,25);
-                column = rnd.nextInt(1,55);
+                row = rnd.nextInt(24) + 1;
+                column = rnd.nextInt(54) + 1;
             }
             map[row][column] = element;
             cn.getTextWindow().output(column, row, element);
         }
         else if (element == 'e') {
             // select random row and column, if not earth square then select random again
-            int row = rnd.nextInt(1,25);
-            int column = rnd.nextInt(1,55);
+            int row = rnd.nextInt(24) + 1;
+            int column = rnd.nextInt(54) + 1;
             while (!isEarthSquare(map, row, column)) {
-                row = rnd.nextInt(1,25);
-                column = rnd.nextInt(1,55);
+                row = rnd.nextInt(24) + 1;
+                column = rnd.nextInt(54) + 1;
             }
             map[row][column] = element;
             cn.getTextWindow().output(column, row, ' ');
