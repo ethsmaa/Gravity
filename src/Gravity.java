@@ -438,5 +438,7 @@ public class Gravity {
             cn.getTextWindow().output(66,16-a,c);
             a++;
         }
+        cn.getTextWindow().output(66,16-a,' ');
+        cn.getTextWindow().output(66,15-a,' ');
     }
 }
