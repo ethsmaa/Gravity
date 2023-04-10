@@ -167,18 +167,37 @@ public class Gravity {
 
             if (keypr == 1) {    // if keyboard button pressed
                 if (rkey == KeyEvent.VK_LEFT && map[player.y][player.x - 1] != '#') {
-                    cn.getTextWindow().output(player.x, player.y, ' ');
-                    player.x--;
+
+                    if(map[player.y][player.x-1] == 'O' && map[player.y][player.x-2] == ' ') {
+                    	map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                    	map[player.y][player.x-2] = 'O';cn.getTextWindow().output(player.x-2,player.y,'O');
+                    	player.x--;}
+                    else if(map[player.y][player.x-1] == 'O') {}
+                    else {                    	
+                    	map[player.y][player.x] = ' ';
+                    	cn.getTextWindow().output(player.x, player.y, ' ');
+                    	player.x--;}
                 }
                 if (rkey == KeyEvent.VK_RIGHT && map[player.y][player.x + 1] != '#') {
-                    cn.getTextWindow().output(player.x, player.y, ' ');
-                    player.x++;
+                	if(map[player.y][player.x+1] == 'O' && map[player.y][player.x+2] == ' ') {
+                    	map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                    	map[player.y][player.x+2] = 'O';cn.getTextWindow().output(player.x+2,player.y,'O');
+                    	player.x++;}
+                    else if(map[player.y][player.x+1] == 'O') {}
+                    else {                    	
+                    	map[player.y][player.x] = ' ';
+                    	cn.getTextWindow().output(player.x, player.y, ' ');
+                    	player.x++;}
                 }
                 if (rkey == KeyEvent.VK_UP && map[player.y - 1][player.x] != '#') {
+                	map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y--;
                 }
                 if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#') {
+                	map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
                 }
@@ -190,15 +209,23 @@ public class Gravity {
                 else cn.getTextWindow().output(rckey);
 
                 if (rkey == KeyEvent.VK_SPACE) {
-                    String str;
-                    str = cn.readLine();     // keyboardlistener running and readline input by using enter
-                    cn.getTextWindow().setCursorPosition(5, 20);
-                    cn.getTextWindow().output(str);
+                	map[player.y][player.x] = ' ';
+                	cn.getTextWindow().output(player.x, player.y,' ');
+
+                	if(player.getTpRights() > 0) {
+                    	player.x = 0;
+                    	player.y = 0;
+                		while (!isEmptySquare(map, player.y, player.x)) {
+                            player.y = random.nextInt(24) + 1;
+                            player.x = random.nextInt(54) + 1; 
+                        }
+                		player.teleport();
+                	}
+                	 
                 }
 
                 keypr = 0;    // last action
             }
-
 
             if(map[player.y][player.x] == '1' || map[player.y][player.x] == '2' || map[player.y][player.x] == '3') {
                 if(map[player.y][player.x] == '1') {player.addNewItem("1");}
