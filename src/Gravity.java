@@ -167,18 +167,37 @@ public class Gravity {
 
             if (keypr == 1) {    // if keyboard button pressed
                 if (rkey == KeyEvent.VK_LEFT && map[player.y][player.x - 1] != '#') {
-                    cn.getTextWindow().output(player.x, player.y, ' ');
-                    player.x--;
+
+                    if(map[player.y][player.x-1] == 'O' && map[player.y][player.x-2] == ' ') {
+                    	map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                    	map[player.y][player.x-2] = 'O';cn.getTextWindow().output(player.x-2,player.y,'O');
+                    	player.x--;}
+                    else if(map[player.y][player.x-1] == 'O') {}
+                    else {                    	
+                    	map[player.y][player.x] = ' ';
+                    	cn.getTextWindow().output(player.x, player.y, ' ');
+                    	player.x--;}
                 }
                 if (rkey == KeyEvent.VK_RIGHT && map[player.y][player.x + 1] != '#') {
-                    cn.getTextWindow().output(player.x, player.y, ' ');
-                    player.x++;
+                	if(map[player.y][player.x+1] == 'O' && map[player.y][player.x+2] == ' ') {
+                    	map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                    	map[player.y][player.x+2] = 'O';cn.getTextWindow().output(player.x+2,player.y,'O');
+                    	player.x++;}
+                    else if(map[player.y][player.x+1] == 'O') {}
+                    else {                    	
+                    	map[player.y][player.x] = ' ';
+                    	cn.getTextWindow().output(player.x, player.y, ' ');
+                    	player.x++;}
                 }
                 if (rkey == KeyEvent.VK_UP && map[player.y - 1][player.x] != '#') {
+                	map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y--;
                 }
                 if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#') {
+                	map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
                 }
