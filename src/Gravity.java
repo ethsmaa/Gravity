@@ -209,15 +209,23 @@ public class Gravity {
                 else cn.getTextWindow().output(rckey);
 
                 if (rkey == KeyEvent.VK_SPACE) {
-                    String str;
-                    str = cn.readLine();     // keyboardlistener running and readline input by using enter
-                    cn.getTextWindow().setCursorPosition(5, 20);
-                    cn.getTextWindow().output(str);
+                	map[player.y][player.x] = ' ';
+                	cn.getTextWindow().output(player.x, player.y,' ');
+
+                	if(player.getTpRights() > 0) {
+                    	player.x = 0;
+                    	player.y = 0;
+                		while (!isEmptySquare(map, player.y, player.x)) {
+                            player.y = random.nextInt(24) + 1;
+                            player.x = random.nextInt(54) + 1; 
+                        }
+                		player.teleport();
+                	}
+                	 
                 }
 
                 keypr = 0;    // last action
             }
-
 
             if(map[player.y][player.x] == '1' || map[player.y][player.x] == '2' || map[player.y][player.x] == '3') {
                 if(map[player.y][player.x] == '1') {player.addNewItem("1");}
