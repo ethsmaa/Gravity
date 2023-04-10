@@ -48,4 +48,8 @@ public class Player {
     	return tpRight;
     }
     
+    public void teleport() {
+    	tpRight--;
+    }
+    
 }
