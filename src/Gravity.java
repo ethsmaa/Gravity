@@ -354,6 +354,7 @@ public class Gravity {
         while (!tempQueue.isEmpty()) {
             queue.enqueue(tempQueue.dequeue());
         }
+
         cn.getTextWindow().setCursorPosition(60, 3);
         cn.getTextWindow().output("<<<<<<<<<<<<" ,red);
         cn.getTextWindow().setCursorPosition(60, 4);
