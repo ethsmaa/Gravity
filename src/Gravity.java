@@ -208,20 +208,16 @@ public class Gravity {
                     cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
                 else cn.getTextWindow().output(rckey);
 
-                if (rkey == KeyEvent.VK_SPACE) {
+                if (rkey == KeyEvent.VK_SPACE && player.getTpRights() > 0) {
                 	map[player.y][player.x] = ' ';
                 	cn.getTextWindow().output(player.x, player.y,' ');
-
-                	if(player.getTpRights() > 0) {
-                    	player.x = 0;
-                    	player.y = 0;
-                		while (!isEmptySquare(map, player.y, player.x)) {
-                            player.y = random.nextInt(24) + 1;
-                            player.x = random.nextInt(54) + 1; 
-                        }
-                		player.teleport();
-                	}
-                	 
+                	player.x = 0;
+                	player.y = 0;
+            		while (!isEmptySquare(map, player.y, player.x)) {
+                        player.y = random.nextInt(24) + 1;
+                        player.x = random.nextInt(54) + 1; 
+                    }
+            		player.teleport(); 
                 }
 
                 keypr = 0;    // last action
@@ -242,13 +238,7 @@ public class Gravity {
             if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
                 cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
             else cn.getTextWindow().output(rckey);
-
-            if (rkey == KeyEvent.VK_SPACE) {
-                String str;
-                str = cn.readLine();     // keyboardlistener running and readline input by using enter
-                cn.getTextWindow().setCursorPosition(5, 20);
-                cn.getTextWindow().output(str);
-            }
+            
             for (int i = 0; i < enemiesCount; i++){
                     int randomDirection = random.nextInt(4);
                     if (randomDirection == 0 && enemies[i][0] - 1 != 'O' && enemies[i][0] - 1 != '#') {
