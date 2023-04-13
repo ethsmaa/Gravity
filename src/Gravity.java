@@ -202,12 +202,12 @@ public class Gravity {
                         cn.getTextWindow().output(player.x, player.y, ' ');
                         player.x++;}
                 }
-                if (rkey == KeyEvent.VK_UP && map[player.y - 1][player.x] != '#') {
+                if (rkey == KeyEvent.VK_UP && map[player.y - 1][player.x] != '#'  && map[player.y - 1][player.x] != 'O') {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y--;
                 }
-                if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#') {
+                if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#'  && map[player.y + 1][player.x] != 'O') {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
