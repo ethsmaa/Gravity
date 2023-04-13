@@ -139,6 +139,17 @@ public class Gravity {
             }
         }
 
+        // random 160 eartsquare   ->  bound
+        int enemyCount = 0;
+        while (enemyCount < 7) {
+            int row = random.nextInt(25);
+            int column = random.nextInt(55);
+            if (isEarthSquare(map, row, column)) {
+                map[row][column] = 'X';
+                enemyCount++;
+            }
+        }
+
 
         while (!isEarthSquare(map, player.y, player.x)) {
             player.y = random.nextInt(24) + 1;
