@@ -169,35 +169,35 @@ public class Gravity {
                 if (rkey == KeyEvent.VK_LEFT && map[player.y][player.x - 1] != '#') {
 
                     if(map[player.y][player.x-1] == 'O' && map[player.y][player.x-2] == ' ') {
-                    	map[player.y][player.x] = ' ';
+                        map[player.y][player.x] = ' ';
                         cn.getTextWindow().output(player.x, player.y, ' ');
-                    	map[player.y][player.x-2] = 'O';cn.getTextWindow().output(player.x-2,player.y,'O');
-                    	player.x--;}
+                        map[player.y][player.x-2] = 'O';cn.getTextWindow().output(player.x-2,player.y,'O');
+                        player.x--;}
                     else if(map[player.y][player.x-1] == 'O') {}
-                    else {                    	
-                    	map[player.y][player.x] = ' ';
-                    	cn.getTextWindow().output(player.x, player.y, ' ');
-                    	player.x--;}
+                    else {
+                        map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                        player.x--;}
                 }
                 if (rkey == KeyEvent.VK_RIGHT && map[player.y][player.x + 1] != '#') {
-                	if(map[player.y][player.x+1] == 'O' && map[player.y][player.x+2] == ' ') {
-                    	map[player.y][player.x] = ' ';
+                    if(map[player.y][player.x+1] == 'O' && map[player.y][player.x+2] == ' ') {
+                        map[player.y][player.x] = ' ';
                         cn.getTextWindow().output(player.x, player.y, ' ');
-                    	map[player.y][player.x+2] = 'O';cn.getTextWindow().output(player.x+2,player.y,'O');
-                    	player.x++;}
+                        map[player.y][player.x+2] = 'O';cn.getTextWindow().output(player.x+2,player.y,'O');
+                        player.x++;}
                     else if(map[player.y][player.x+1] == 'O') {}
-                    else {                    	
-                    	map[player.y][player.x] = ' ';
-                    	cn.getTextWindow().output(player.x, player.y, ' ');
-                    	player.x++;}
+                    else {
+                        map[player.y][player.x] = ' ';
+                        cn.getTextWindow().output(player.x, player.y, ' ');
+                        player.x++;}
                 }
                 if (rkey == KeyEvent.VK_UP && map[player.y - 1][player.x] != '#') {
-                	map[player.y][player.x] = ' ';
+                    map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y--;
                 }
                 if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#') {
-                	map[player.y][player.x] = ' ';
+                    map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
                 }
@@ -209,15 +209,15 @@ public class Gravity {
                 else cn.getTextWindow().output(rckey);
 
                 if (rkey == KeyEvent.VK_SPACE && player.getTpRights() > 0) {
-                	map[player.y][player.x] = ' ';
-                	cn.getTextWindow().output(player.x, player.y,' ');
-                	player.x = 0;
-                	player.y = 0;
-            		while (!isEmptySquare(map, player.y, player.x)) {
+                    map[player.y][player.x] = ' ';
+                    cn.getTextWindow().output(player.x, player.y,' ');
+                    player.x = 0;
+                    player.y = 0;
+                    while (!isEmptySquare(map, player.y, player.x)) {
                         player.y = random.nextInt(24) + 1;
-                        player.x = random.nextInt(54) + 1; 
+                        player.x = random.nextInt(54) + 1;
                     }
-            		player.teleport(); 
+                    player.teleport();
                 }
 
                 keypr = 0;    // last action
@@ -238,41 +238,43 @@ public class Gravity {
             if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
                 cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
             else cn.getTextWindow().output(rckey);
-            
+
             for (int i = 0; i < enemiesCount; i++){
-                    int randomDirection = random.nextInt(4);
-                    if (randomDirection == 0 && enemies[i][0] - 1 != 'O' && enemies[i][0] - 1 != '#') {
+                int Xx = enemies[i][1];
+                int Xy = enemies[i][0];
+                int randomDirection = random.nextInt(4);
+                if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#') {
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] - 1);
-                        cn.getTextWindow().output('X' , blue);
-                        enemies[i][0] --;
-                    }
-                    else if (randomDirection == 1 && enemies[i][0] + 1 != 'O' && enemies[i][0] + 1 != '#') {
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                    cn.getTextWindow().output(' ');
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] - 1);
+                    cn.getTextWindow().output('X' , blue);
+                    enemies[i][0] --;
+                }
+                else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#') {
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] + 1);
-                        cn.getTextWindow().output('X' , blue);
-                        enemies[i][0] ++;
-                    }
-                    else if (randomDirection == 2 && enemies[i][1] - 1 != 'O' && enemies[i][1] - 1 != '#') {
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                    cn.getTextWindow().output(' ');
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] + 1);
+                    cn.getTextWindow().output('X' , blue);
+                    enemies[i][0] ++;
+                }
+                else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#') {
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
-                        cn.getTextWindow().output('X' , blue);
-                        enemies[i][1] --;
-                    }
-                    else if (randomDirection == 3 && enemies[i][1] + 1 != 'O' && enemies[i][1] + 1 != '#') {
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                    cn.getTextWindow().output(' ');
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
+                    cn.getTextWindow().output('X' , blue);
+                    enemies[i][1] --;
+                }
+                else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#') {
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] + 1 , enemies[i][0]);
-                        cn.getTextWindow().output('X' , blue);
-                        enemies[i][1] ++;
-                    }
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
+                    cn.getTextWindow().output(' ');
+                    cn.getTextWindow().setCursorPosition(enemies[i][1] + 1 , enemies[i][0]);
+                    cn.getTextWindow().output('X' , blue);
+                    enemies[i][1] ++;
+                }
             }
             if (time % 80 == 0) {
                 randomQueueAdd(inputQueue, map);
@@ -310,7 +312,7 @@ public class Gravity {
     }
 
     boolean isEmptySquare(char[][] map, int row, int column) {
-            return map[row][column] == ' ';
+        return map[row][column] == ' ';
     }
 
     boolean isEarthSquare(char[][] map, int row, int column) { // ora henüz bir şeye dönüşmediyse
