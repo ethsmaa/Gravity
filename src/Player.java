@@ -38,8 +38,7 @@ public class Player {
     public Stack getBackpack() {
     	return backpack;
     }
-    
-    
+
     public int getScore() {
     	return score;
     }

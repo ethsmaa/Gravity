@@ -139,7 +139,7 @@ public class Gravity {
             }
         }
 
-        // random 160 eartsquare   ->  bound
+        // random 160 eartsquare   ->  enemy
         int enemyCount = 0;
         while (enemyCount < 7) {
             int row = random.nextInt(25);
