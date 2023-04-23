@@ -314,7 +314,7 @@ public class Gravity {
 
             time++;
 
-            Thread.sleep(20);
+            Thread.sleep(100);
 
         }
 
