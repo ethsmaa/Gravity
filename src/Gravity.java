@@ -252,43 +252,72 @@ public class Gravity {
             if (rckey == '%' || rckey == '\'' || rckey == '&' || rckey == '(')
                 cn.getTextWindow().output(player.x, player.y, 'P' ,green); // VK kullanmadan test teknigi
             else cn.getTextWindow().output(rckey);
-
+            int endOfTheGameRow = 0;
+            int endOfTheGameColumn = 0;
             for (int i = 0; i < enemiesCount; i++){
                 int Xx = enemies[i][1];
                 int Xy = enemies[i][0];
                 int randomDirection = random.nextInt(4);
-                if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#') {
+                if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
 
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
                     cn.getTextWindow().output(' ');
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] - 1);
                     cn.getTextWindow().output('X' , blue);
                     enemies[i][0] --;
+                    if (map[Xy][Xx] == 'P'){
+                        endOfTheGameRow = Xy;
+                        endOfTheGameColumn = Xx;
+                        break;
+                    }
                 }
-                else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#') {
+                else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
 
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
                     cn.getTextWindow().output(' ');
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] + 1);
                     cn.getTextWindow().output('X' , blue);
                     enemies[i][0] ++;
+                    if (map[Xy][Xx] == 'P'){
+                        endOfTheGameRow = Xy;
+                        endOfTheGameColumn = Xx;
+                        break;
+                    }
                 }
-                else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#') {
+                else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
 
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
                     cn.getTextWindow().output(' ');
                     cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
                     cn.getTextWindow().output('X' , blue);
                     enemies[i][1] --;
+                    if (map[Xy][Xx] == 'P'){
+                        endOfTheGameRow = Xy;
+                        endOfTheGameColumn = Xx;
+                        break;
+                    }
                 }
-                else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#') {
+                else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
 
                     cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
                     cn.getTextWindow().output(' ');
                     cn.getTextWindow().setCursorPosition(enemies[i][1] + 1 , enemies[i][0]);
                     cn.getTextWindow().output('X' , blue);
                     enemies[i][1] ++;
+                    if (map[Xy][Xx] == 'P'){
+                        endOfTheGameRow = Xy;
+                        endOfTheGameColumn = Xx;
+                        break;
+                    }
                 }
+            }
+            if (map[endOfTheGameRow][endOfTheGameColumn] == 'P'){
+                cn.getTextWindow().setCursorPosition(0, 27);
+                cn.getTextWindow().output("GAME OVER. Your score is " , red);
+                cn.getTextWindow().setCursorPosition(30, 27);
+                cn.getTextWindow().output(" " + player.getScore());
+                break;
+
             }
             if (time % 80 == 0) {
                 randomQueueAdd(inputQueue, map);
