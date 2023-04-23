@@ -104,14 +104,14 @@ public class Gravity {
             }
         }
 
-        // random 160 eartsquare   ->  bound
-        int boundCount = 0;
-        while (boundCount < 160) {
+        // random 160 eartsquare   ->  boulder
+        int boulderCount = 0;
+        while (boulderCount < 160) {
             int row = random.nextInt(25);
             int column = random.nextInt(55);
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = 'O';
-                boundCount++;
+                boulderCount++;
             }
         }
 
@@ -244,6 +244,9 @@ public class Gravity {
 
                 displayBackpack();
             }
+
+
+
             map[player.y][player.x] = 'P';
             cn.getTextWindow().output(player.x, player.y, 'P',green);
 
@@ -290,7 +293,7 @@ public class Gravity {
                     enemies[i][1] ++;
                 }
             }
-            if (time % 80 == 0) {
+            if (time % 20 == 0) {
                 randomQueueAdd(inputQueue, map);
                 printQueue(inputQueue);
             }
@@ -310,7 +313,7 @@ public class Gravity {
             cn.getTextWindow().setCursorPosition(60, 23);
             cn.getTextWindow().output("Time     : " , cyan);//getTime()
             cn.getTextWindow().setCursorPosition(70, 23);
-            cn.getTextWindow().output("  " +time / 40);
+            cn.getTextWindow().output("  " +time / 5);
 
             time++;
 
@@ -333,7 +336,7 @@ public class Gravity {
         return map[row][column] == ':';
     }
 
-    boolean isBoundSquare(char[][] map, int row, int column) {
+    boolean isboulderSquare(char[][] map, int row, int column) {
         return map[row][column] == 'O';
     }
 
@@ -425,10 +428,10 @@ public class Gravity {
                 column = rnd.nextInt(54) + 1;
             }
 
-            // random bound coordinates
+            // random boulder coordinates
             int row2 = rnd.nextInt(24) + 1;
             int column2 = rnd.nextInt(54) + 1;
-            while (!isBoundSquare(map, row2, column2)) {
+            while (!isboulderSquare(map, row2, column2)) {
                 row2 = rnd.nextInt(24) + 1;
                 column2 = rnd.nextInt(54) + 1;
             }
