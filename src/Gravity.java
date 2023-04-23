@@ -146,6 +146,9 @@ public class Gravity {
             int column = random.nextInt(55);
             if (isEarthSquare(map, row, column)) {
                 map[row][column] = 'X';
+                enemies[enemiesCount][0] = row;
+                enemies[enemiesCount][1] = column;
+                enemiesCount++;
                 enemyCount++;
             }
         }
