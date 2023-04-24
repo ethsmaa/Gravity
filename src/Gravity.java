@@ -26,7 +26,7 @@ public class Gravity {
 
 
 
-    public enigma.console.Console cn = Enigma.getConsole("Gravity", 100, 26, 22, 0);
+    public enigma.console.Console cn = Enigma.getConsole("Gravity", 100, 26, 20, 0);
     public TextMouseListener tmlis;
     public KeyListener klis;
 
@@ -175,7 +175,8 @@ public class Gravity {
             else {
                 cn.getTextWindow().output(64+i,17,'-');}
         }
-
+        boolean bound_flag = false; 
+        boolean game_over = false;
 
         while (true) {
 
@@ -214,6 +215,9 @@ public class Gravity {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
+                    if(bound_flag == true) {
+                    	game_over = true;
+                    }
                 }
 
                 char rckey = (char) rkey;
@@ -314,6 +318,56 @@ public class Gravity {
                     }
                 }
             }
+            
+            
+            
+            bound_flag = false;
+            for(int i = 0; i<25 ;i++) {
+         	   for (int j = 0;j<55;j++) {
+         		   
+         		   if(map[i][j] == 'O') {
+         			  // System.out.print("okayy");
+         			   //if(isEmptySquare(map,i+1,j)) {
+         			   if(map[i+1][j] == ' ') { 
+         					map[i][j] = ' ';
+         					map[i+1][j] = 'O';
+         					
+                             cn.getTextWindow().output(j, i, ' ');
+                           	cn.getTextWindow().output(j,i+1,'O');
+         			   }
+         			   else if(isEarthSquare(map,i+1,j)) {}
+         			 
+         			   else if(isboulderSquare(map,i+1,j)) {
+         				   if(isEmptySquare(map,i+1,j+1) && isEmptySquare(map,i+1,j-1)) {
+         					   int rnd_number = random.nextInt(2);
+         					   if(rnd_number ==0) {
+         						   map[i][j] = ' ';
+                 				   map[i+1][j-1] = 'O';
+                 				   cn.getTextWindow().output(j, i, ' ');
+                                	   cn.getTextWindow().output(j-1,i+1,'O');
+         					   }
+         					   else if(rnd_number == 1) {
+         						   map[i][j] = ' ';
+                 				   map[i+1][j+1] = 'O';
+                 				   cn.getTextWindow().output(j, i, ' ');
+                                	   cn.getTextWindow().output(j+1,i+1,'O');
+         					   }
+         				   }
+         			   }
+         			   
+         			   else if (map[i+1][j] == 'P') {
+         				   bound_flag =true;
+         			   }
+         			   
+         			   
+         		   }
+         		   
+         		   
+         	   }
+            }
+            if(game_over == true) break;
+            
+            
             if (map[endOfTheGameRow][endOfTheGameColumn] == 'P'){
                 cn.getTextWindow().setCursorPosition(0, 27);
                 cn.getTextWindow().output("GAME OVER. Your score is " , red);
