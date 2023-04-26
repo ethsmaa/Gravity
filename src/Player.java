@@ -32,6 +32,10 @@ public class Player {
     		else {score+=90;tpRight++;}
     		backpack.pop();}
     	else {backpack.push(item);}}
+
+	public void killEnemy(){
+		score+=900;
+	}
     
     
     

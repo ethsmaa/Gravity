@@ -176,7 +176,7 @@ public class Gravity {
             else {
                 cn.getTextWindow().output(64+i,17,'-');}
         }
-        boolean bound_flag = false; 
+        boolean boulder_flag = false; 
         boolean game_over = false;
 
         while (true) {
@@ -216,7 +216,7 @@ public class Gravity {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
-                    if(bound_flag == true) {
+                    if(boulder_flag == true) {
                     	game_over = true;
                     }
                 }
@@ -262,67 +262,85 @@ public class Gravity {
             else cn.getTextWindow().output(rckey);
             int endOfTheGameRow = 0;
             int endOfTheGameColumn = 0;
-            for (int i = 0; i < enemiesCount; i++){
+
+
+            for (int i = 0; i < enemiesCount; i++) {
                 int Xx = enemies[i][1];
                 int Xy = enemies[i][0];
-                int randomDirection = random.nextInt(4);
-                if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
+                if (enemies[i][0] != 0) {
+                    int randomDirection = random.nextInt(4);
+                    if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
 
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                    cn.getTextWindow().output(' ');
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] - 1);
-                    cn.getTextWindow().output('X' , blue);
-                    enemies[i][0] --;
-                    if (map[Xy][Xx] == 'P'){
-                        endOfTheGameRow = Xy;
-                        endOfTheGameColumn = Xx;
-                        break;
-                    }
-                }
-                else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
+                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
+                        cn.getTextWindow().output('X', blue);
+                        enemies[i][0]--;
+                        if (map[Xy][Xx] == 'P') {
+                            endOfTheGameRow = Xy;
+                            endOfTheGameColumn = Xx;
+                            break;
+                        }
+                    } else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
+                            
 
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                    cn.getTextWindow().output(' ');
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0] + 1);
-                    cn.getTextWindow().output('X' , blue);
-                    enemies[i][0] ++;
-                    if (map[Xy][Xx] == 'P'){
-                        endOfTheGameRow = Xy;
-                        endOfTheGameColumn = Xx;
-                        break;
-                    }
-                }
-                else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
+                            // enemiesCount--;   bu satır olmalı mı?
+                        } else {
 
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                    cn.getTextWindow().output(' ');
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
-                    cn.getTextWindow().output('X' , blue);
-                    enemies[i][1] --;
-                    if (map[Xy][Xx] == 'P'){
-                        endOfTheGameRow = Xy;
-                        endOfTheGameColumn = Xx;
-                        break;
-                    }
-                }
-                else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] + 1);
+                            cn.getTextWindow().output('X', blue);
+                            enemies[i][0]++;
+                            if (map[Xy][Xx] == 'P') {
+                                endOfTheGameRow = Xy;
+                                endOfTheGameColumn = Xx;
+                                break;
+                            }
+                        }
 
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] , enemies[i][0]);
-                    cn.getTextWindow().output(' ');
-                    cn.getTextWindow().setCursorPosition(enemies[i][1] + 1 , enemies[i][0]);
-                    cn.getTextWindow().output('X' , blue);
-                    enemies[i][1] ++;
-                    if (map[Xy][Xx] == 'P'){
-                        endOfTheGameRow = Xy;
-                        endOfTheGameColumn = Xx;
-                        break;
+
+                    } else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
+
+                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
+                        cn.getTextWindow().output('X', blue);
+                        enemies[i][1]--;
+                        if (map[Xy][Xx] == 'P') {
+                            endOfTheGameRow = Xy;
+                            endOfTheGameColumn = Xx;
+                            break;
+                        }
+                    } else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
+
+                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                        cn.getTextWindow().output(' ');
+                        cn.getTextWindow().setCursorPosition(enemies[i][1] + 1, enemies[i][0]);
+                        cn.getTextWindow().output('X', blue);
+                        enemies[i][1]++;
+                        if (map[Xy][Xx] == 'P') {
+                            endOfTheGameRow = Xy;
+                            endOfTheGameColumn = Xx;
+                            break;
+                        }
                     }
+
+                    map[Xy][Xx] = ' '; // old positions
+
                 }
             }
             
             
             
-            bound_flag = false;
+            boulder_flag = false;
             for(int i = 0; i<25 ;i++) {
          	   for (int j = 0;j<55;j++) {
          		   
@@ -357,11 +375,19 @@ public class Gravity {
          			   }
          			   
          			   else if (map[i+1][j] == 'P') {
-         				   bound_flag =true;
+         				   boulder_flag =true;
          			   }
-         			   
-         			   
-         		   }
+                        else if (map[i+1][j] == 'X') {
+                           map[i][j] = ' ';
+                           map[i+1][j] = 'O';
+                           enemyCount--;
+
+                           player.killEnemy();
+
+                       }
+
+
+                   }
          		   
          		   
          	   }
