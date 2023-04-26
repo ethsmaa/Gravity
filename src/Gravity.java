@@ -8,6 +8,7 @@ import java.util.Random;
 import java.awt.Color;
 import enigma.console.TextAttributes;
 
+// !! TODO: taş düşmanın üstüne düştüğü zaman player puan kazancak
 
 
 
@@ -83,7 +84,7 @@ public class Gravity {
         // ----------------------------------------------------
         player = new Player(0,0);
         Random random = new Random();
-        Queue inputQueue = new Queue(1000);
+        CircularQueue inputQueue = new CircularQueue(12);
         char[][] map = new char[25][55];
 
 
@@ -365,10 +366,8 @@ public class Gravity {
          		   
          	   }
             }
-            if(game_over == true) break;
-            
-            
-            if (map[endOfTheGameRow][endOfTheGameColumn] == 'P'){
+
+            if (map[endOfTheGameRow][endOfTheGameColumn] == 'P'||game_over){
                 cn.getTextWindow().setCursorPosition(0, 27);
                 cn.getTextWindow().output("GAME OVER. Your score is " , red);
                 cn.getTextWindow().setCursorPosition(30, 27);
@@ -431,9 +430,9 @@ public class Gravity {
         }
     }
 
-    void randomQueueAdd(Queue queue, char[][] map) {
+    void randomQueueAdd(CircularQueue queue, char[][] map) {
         Random rnd = new Random();
-        while (queue.size()<13) {
+        while (!queue.isFull()) {
             int randomIndex = rnd.nextInt(  40);
             if (randomIndex < 6) { // 6/40 probability
                 queue.enqueue('1');
@@ -462,8 +461,8 @@ public class Gravity {
         queueToMap(queue, map);
     }
 
-    void printQueue(Queue queue) {
-        Queue tempQueue = new Queue(queue.size());
+    void printQueue(CircularQueue queue) {
+        CircularQueue tempQueue = new CircularQueue(queue.size());
         String str = "";
         while (!queue.isEmpty()) {
             Object value = queue.dequeue();
@@ -482,7 +481,7 @@ public class Gravity {
         cn.getTextWindow().output("<<<<<<<<<<<<" ,red);
     }
 
-    void queueToMap(Queue queue, char[][] map) {
+    void queueToMap(CircularQueue queue, char[][] map) {
         Random rnd = new Random();
         char element = (char) queue.dequeue();
         if (element == '1' || element == '2' || element == '3' || element == 'X') {
@@ -550,7 +549,9 @@ public class Gravity {
     }
 
     void displayBackpack() {
-        while(!player.getBackpack().isEmpty()) {displayStack.push(player.getBackpack().pop());}
+        while(!player.getBackpack().isEmpty()) {
+            displayStack.push(player.getBackpack().pop());
+        }
         int a = 0;
         while(!displayStack.isEmpty()) {
             char c = ((String) displayStack.peek()).charAt(0);
