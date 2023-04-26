@@ -302,17 +302,26 @@ public class Gravity {
                         }
                     }
                     if (enemies[i][2] == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][0]--;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
-                        }
+                        }else{
+                                cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                                cn.getTextWindow().output(' ');
+                                cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
+                                cn.getTextWindow().output('X', blue);
+                                enemies[i][0]--;
+                                if (map[Xy][Xx] == 'P') {
+                                    endOfTheGameRow = Xy;
+                                    endOfTheGameColumn = Xx;
+                                    break;
+                                }
+                            }
                     } else if (enemies[i][2] == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
                         if (map[Xy - 1][Xx] == 'O') {
                             player.killEnemy();
@@ -340,28 +349,47 @@ public class Gravity {
 
 
                     } else if (enemies[i][2] == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
-
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][1]--;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
+                        }
+                        else {
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
+                            cn.getTextWindow().output('X', blue);
+                            enemies[i][1]--;
+                            if (map[Xy][Xx] == 'P') {
+                                endOfTheGameRow = Xy;
+                                endOfTheGameColumn = Xx;
+                                break;
+                            }
                         }
                     } else if (enemies[i][2] == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] + 1, enemies[i][0]);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][1]++;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
+                        }
+                        else {
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            cn.getTextWindow().setCursorPosition(enemies[i][1] + 1, enemies[i][0]);
+                            cn.getTextWindow().output('X', blue);
+                            enemies[i][1]++;
+                            if (map[Xy][Xx] == 'P') {
+                                endOfTheGameRow = Xy;
+                                endOfTheGameColumn = Xx;
+                                break;
+                            }
                         }
                     }
 
