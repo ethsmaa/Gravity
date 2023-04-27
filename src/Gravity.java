@@ -289,7 +289,7 @@ public class Gravity {
                             cn.getTextWindow().output(' ');
                             enemies[i][0] = 0;
                             enemies[i][1] = 0;
-                            
+
 
                             // enemiesCount--;   bu satır olmalı mı?
                         } else {
