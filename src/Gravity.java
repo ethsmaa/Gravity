@@ -41,7 +41,7 @@ public class Gravity {
 
     Stack displayStack = new Stack(8);
     Player player;
-    int [][] enemies = new int[100][2];
+    int [][] enemies = new int[100][3];
     int enemiesCount = 0;
 
     Gravity() throws Exception {
@@ -176,7 +176,7 @@ public class Gravity {
             else {
                 cn.getTextWindow().output(64+i,17,'-');}
         }
-        boolean boulder_flag = false; 
+        boolean boulder_flag = false;
         boolean game_over = false;
 
         while (true) {
@@ -211,13 +211,14 @@ public class Gravity {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y--;
+
                 }
                 if (rkey == KeyEvent.VK_DOWN && map[player.y + 1][player.x] != '#'  && map[player.y + 1][player.x] != 'O') {
                     map[player.y][player.x] = ' ';
                     cn.getTextWindow().output(player.x, player.y, ' ');
                     player.y++;
                     if(boulder_flag == true) {
-                    	game_over = true;
+                        game_over = true;
                     }
                 }
 
@@ -268,20 +269,59 @@ public class Gravity {
                 int Xx = enemies[i][1];
                 int Xy = enemies[i][0];
                 if (enemies[i][0] != 0) {
-                    int randomDirection = random.nextInt(4);
-                    if (randomDirection == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
-
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][0]--;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
+                    if (enemies[i][2] == 4){
+                        enemies[i][2] = random.nextInt(4);
+                    }
+                    if (enemies[i][2] == 0){
+                        if (!(map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X')){
+                            while (enemies[i][2] == 0){
+                                enemies[i][2] = random.nextInt(4);
+                            }
                         }
-                    } else if (randomDirection == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
+                    }
+                    else if (enemies[i][2] == 1){
+                        if (!(map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X')){
+                            while (enemies[i][2] == 1){
+                                enemies[i][2] = random.nextInt(4);
+                            }
+                        }
+                    }
+                    else if (enemies[i][2] == 2){
+                        if (!(map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X')){
+                            while (enemies[i][2] == 2){
+                                enemies[i][2] = random.nextInt(4);
+                            }
+                        }
+                    }
+                    else if (enemies[i][2] == 3){
+                        if (!(map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X')){
+                            while (enemies[i][2] == 3){
+                                enemies[i][2] = random.nextInt(4);
+                            }
+                        }
+                    }
+                    if (enemies[i][2] == 0 && map[Xy - 1][Xx] != 'O' && map[Xy - 1][Xx] != '#' && map[Xy - 1][Xx] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
+
+                        }else{
+                                cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                                cn.getTextWindow().output(' ');
+                                cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
+                                cn.getTextWindow().output('X', blue);
+                                enemies[i][0]--;
+                                if (map[Xy][Xx] == 'P') {
+                                    endOfTheGameRow = Xy;
+                                    endOfTheGameColumn = Xx;
+                                    break;
+                                }
+                            }
+                    } else if (enemies[i][2] == 1 && map[Xy + 1][Xx] != 'O' && map[Xy + 1][Xx] != '#' && map[Xy + 1][Xx] != 'X') {
                         if (map[Xy - 1][Xx] == 'O') {
                             player.killEnemy();
                             map[Xy][Xx] = ' ';
@@ -291,7 +331,7 @@ public class Gravity {
                             enemies[i][1] = 0;
 
 
-                            // enemiesCount--;   bu satır olmalı mı?
+                            // enemiesCount--;   bu satır olmalı mı? olmamalı
                         } else {
 
                             cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
@@ -307,29 +347,48 @@ public class Gravity {
                         }
 
 
-                    } else if (randomDirection == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
-
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][1]--;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
+                    } else if (enemies[i][2] == 2 && map[Xy][Xx - 1] != 'O' && map[Xy][Xx - 1] != '#' && map[Xy][Xx - 1] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
                         }
-                    } else if (randomDirection == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
+                        else {
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            cn.getTextWindow().setCursorPosition(enemies[i][1] - 1, enemies[i][0]);
+                            cn.getTextWindow().output('X', blue);
+                            enemies[i][1]--;
+                            if (map[Xy][Xx] == 'P') {
+                                endOfTheGameRow = Xy;
+                                endOfTheGameColumn = Xx;
+                                break;
+                            }
+                        }
+                    } else if (enemies[i][2] == 3 && map[Xy][Xx + 1] != 'O' && map[Xy][Xx + 1] != '#' && map[Xy][Xx + 1] != 'X') {
+                        if (map[Xy - 1][Xx] == 'O') {
+                            player.killEnemy();
+                            map[Xy][Xx] = ' ';
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            enemies[i][0] = 0;
+                            enemies[i][1] = 0;
 
-                        cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
-                        cn.getTextWindow().output(' ');
-                        cn.getTextWindow().setCursorPosition(enemies[i][1] + 1, enemies[i][0]);
-                        cn.getTextWindow().output('X', blue);
-                        enemies[i][1]++;
-                        if (map[Xy][Xx] == 'P') {
-                            endOfTheGameRow = Xy;
-                            endOfTheGameColumn = Xx;
-                            break;
+                        }
+                        else {
+                            cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
+                            cn.getTextWindow().output(' ');
+                            cn.getTextWindow().setCursorPosition(enemies[i][1] + 1, enemies[i][0]);
+                            cn.getTextWindow().output('X', blue);
+                            enemies[i][1]++;
+                            if (map[Xy][Xx] == 'P') {
+                                endOfTheGameRow = Xy;
+                                endOfTheGameColumn = Xx;
+                                break;
+                            }
                         }
                     }
 
@@ -337,60 +396,60 @@ public class Gravity {
 
                 }
             }
-            
-            
-            
+
+
+
             boulder_flag = false;
             for(int i = 0; i<25 ;i++) {
-         	   for (int j = 0;j<55;j++) {
-         		   
-         		   if(map[i][j] == 'O') {
-         			  // System.out.print("okayy");
-         			   //if(isEmptySquare(map,i+1,j)) {
-         			   if(map[i+1][j] == ' ') { 
-         					map[i][j] = ' ';
-         					map[i+1][j] = 'O';
-         					
-                             cn.getTextWindow().output(j, i, ' ');
-                           	cn.getTextWindow().output(j,i+1,'O');
-         			   }
-         			   else if(isEarthSquare(map,i+1,j)) {}
-         			 
-         			   else if(isboulderSquare(map,i+1,j)) {
-         				   if(isEmptySquare(map,i+1,j+1) && isEmptySquare(map,i+1,j-1)) {
-         					   int rnd_number = random.nextInt(2);
-         					   if(rnd_number ==0) {
-         						   map[i][j] = ' ';
-                 				   map[i+1][j-1] = 'O';
-                 				   cn.getTextWindow().output(j, i, ' ');
-                                	   cn.getTextWindow().output(j-1,i+1,'O');
-         					   }
-         					   else if(rnd_number == 1) {
-         						   map[i][j] = ' ';
-                 				   map[i+1][j+1] = 'O';
-                 				   cn.getTextWindow().output(j, i, ' ');
-                                	   cn.getTextWindow().output(j+1,i+1,'O');
-         					   }
-         				   }
-         			   }
-         			   
-         			   else if (map[i+1][j] == 'P') {
-         				   boulder_flag =true;
-         			   }
+                for (int j = 0;j<55;j++) {
+
+                    if(map[i][j] == 'O') {
+                        // System.out.print("okayy");
+                        //if(isEmptySquare(map,i+1,j)) {
+                        if(map[i+1][j] == ' ') {
+                            map[i][j] = ' ';
+                            map[i+1][j] = 'O';
+
+                            cn.getTextWindow().output(j, i, ' ');
+                            cn.getTextWindow().output(j,i+1,'O');
+                        }
+                        else if(isEarthSquare(map,i+1,j)) {}
+
+                        else if(isboulderSquare(map,i+1,j)) {
+                            if(isEmptySquare(map,i+1,j+1) && isEmptySquare(map,i+1,j-1)) {
+                                int rnd_number = random.nextInt(2);
+                                if(rnd_number ==0) {
+                                    map[i][j] = ' ';
+                                    map[i+1][j-1] = 'O';
+                                    cn.getTextWindow().output(j, i, ' ');
+                                    cn.getTextWindow().output(j-1,i+1,'O');
+                                }
+                                else if(rnd_number == 1) {
+                                    map[i][j] = ' ';
+                                    map[i+1][j+1] = 'O';
+                                    cn.getTextWindow().output(j, i, ' ');
+                                    cn.getTextWindow().output(j+1,i+1,'O');
+                                }
+                            }
+                        }
+
+                        else if (map[i+1][j] == 'P') {
+                            boulder_flag =true;
+                        }
                         else if (map[i+1][j] == 'X') {
-                           map[i][j] = ' ';
-                           map[i+1][j] = 'O';
-                           enemyCount--;
+                            map[i][j] = ' ';
+                            map[i+1][j] = 'O';
+                            enemyCount--;
 
-                           player.killEnemy();
+                            player.killEnemy();
 
-                       }
+                        }
 
 
-                   }
-         		   
-         		   
-         	   }
+                    }
+
+
+                }
             }
 
             if (map[endOfTheGameRow][endOfTheGameColumn] == 'P'||game_over){
@@ -522,6 +581,7 @@ public class Gravity {
             if (element == 'X'){
                 enemies[enemiesCount][0] = row;
                 enemies[enemiesCount][1] = column;
+                enemies[enemiesCount][2] = 4;
                 enemiesCount++;
             }
             map[row][column] = element;
