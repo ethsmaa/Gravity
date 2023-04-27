@@ -8,8 +8,6 @@ import java.util.Random;
 import java.awt.Color;
 import enigma.console.TextAttributes;
 
-// !! TODO: taş düşmanın üstüne düştüğü zaman player puan kazancak
-
 
 
 public class Gravity {
@@ -309,7 +307,8 @@ public class Gravity {
                             enemies[i][0] = 0;
                             enemies[i][1] = 0;
 
-                        }else{
+                        }
+                        else{
                                 cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
                                 cn.getTextWindow().output(' ');
                                 cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0] - 1);
@@ -331,7 +330,6 @@ public class Gravity {
                             enemies[i][1] = 0;
 
 
-                            // enemiesCount--;   bu satır olmalı mı? olmamalı
                         } else {
 
                             cn.getTextWindow().setCursorPosition(enemies[i][1], enemies[i][0]);
@@ -392,7 +390,7 @@ public class Gravity {
                         }
                     }
 
-                    map[Xy][Xx] = ' '; // old positions
+                    map[Xy][Xx] = ' '; 
 
                 }
             }
